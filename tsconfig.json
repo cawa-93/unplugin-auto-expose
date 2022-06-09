@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES2021",
+    "sourceMap": true,
+    "moduleResolution": "Node"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

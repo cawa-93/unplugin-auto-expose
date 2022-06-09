@@ -10,7 +10,7 @@ Plugins for automatic `exposeInMainWorld` everething you exported from preload a
 ## Example
 ```ts
 // /preload/index.ts
-export foo = 'foo string'
+export const foo = 'foo string'
 ```
 ```ts
 // /renderer/index.ts

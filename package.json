@@ -1,16 +1,60 @@
 {
   "name": "unplugin-auto-expose",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "Plugins for automatic exposeInMainWorld everything you exported from preload and easily importing exposed api in renderer",
+  "main": "./dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup src/index.ts --format cjs,esm --dts --splitting --clean",
+    "prepublishOnly": "npm run build",
+    "release": "bumpp --commit --push --tag && npm publish"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "homepage": "https://github.com/cawa-93/unplugin-auto-expose#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cawa-93/unplugin-auto-expose.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cawa-93/unplugin-auto-expose/issues"
+  },
+  "keywords": [
+    "unplugin",
+    "vite",
+    "webpack",
+    "rollup",
+    "auto-expose",
+    "electron"
+  ],
+  "author": {
+    "email": "kozackunisoft@gmail.com",
+    "name": "Alex Kozack",
+    "url": "https://kozack.me"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
   "dependencies": {
     "mlly": "0.5.2",
     "unplugin": "0.7.0"
+  },
+  "devDependencies": {
+    "bumpp": "7.1.1",
+    "tsup": "6.1.0",
+    "typescript": "4.7.3"
   }
 }

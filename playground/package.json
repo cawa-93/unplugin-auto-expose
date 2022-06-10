@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "build": "cd preload && vite build && cd ../renderer && vite build"
+  },
+  "devDependencies":{"vite":"2.9.11"}
+}
+

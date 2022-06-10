@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "Node",
+    "isolatedModules": true,
+    "jsx": "preserve",
+
+    "types" : ["node"],
+    "paths": {
+      "#preload": [
+        "../preload/index"
+      ]
+    }
+  },
+  "include": ["index.ts"]
+}

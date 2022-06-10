@@ -1,7 +1,15 @@
 {
+  "main": "main/dist/index.js",
   "scripts": {
-    "build": "cd preload && vite build && cd ../renderer && vite build"
+    "build:main": "vite build -c ./main/vite.config.ts",
+    "build:preload": "vite build -c ./preload/vite.config.ts",
+    "build:renderer": "vite build -c ./renderer/vite.config.ts",
+    "dev": "node ./watch.js"
   },
-  "devDependencies":{"vite":"2.9.11"}
+  "devDependencies": {
+    "vite": "2.9.11"
+  },
+  "dependencies": {
+    "electron": "19.0.4"
+  }
 }
-

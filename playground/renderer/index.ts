@@ -1,3 +1,3 @@
 import * as exposed from '#preload';
 
-console.log({exposed});
+document.body.innerHTML = `<pre>${JSON.stringify({exposed})}</pre>`

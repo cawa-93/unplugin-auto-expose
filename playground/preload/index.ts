@@ -1,1 +1,1 @@
-export const LOL = 'LOLOLO'
+export const foo = 'bar'

@@ -26,7 +26,7 @@ export {prop} from 'file' // ✔
 
 export * as props from 'file' // ❌ Will not work
 import * as file from 'file' 
-export const props = file // ✔
+export const props = file // ⚠ Will work but not recommended for security reasons
 ```
 
 ## Configuration

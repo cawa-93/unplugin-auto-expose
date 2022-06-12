@@ -53,7 +53,7 @@ import {renderer} from 'unplugin-auto-expose';
 export default defineConfig({
   plugins: [
     renderer.vite({
-      preloadEntry: '/absolute/path/to/preload/index.ts'
+      preloadEntry: '/absolute/path/to/preload.ts'
     })
   ]
 })

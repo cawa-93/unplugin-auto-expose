@@ -65,7 +65,7 @@ To configurate the TypeScript, add a path to your renderer `tsconfig.json`:
   "compilerOptions": {
     "paths": {
       "#preload": [
-        "/path/to/preload/index"
+        "/path/to/preload"
       ]
     }
   }

@@ -11,11 +11,14 @@ Plugins for automatic `exposeInMainWorld` everething you exported from preload a
 ```ts
 // /preload/index.ts
 export const foo = 'foo string'
+// Equivalent
+electron.contextBridge.exposeInMainWorld('__electron_preload_foo__', 'foo string')
 ```
 ```ts
 // /renderer/index.ts
 import {foo} from '#preload'
-console.log(foo)
+// Equivalent
+const foo = window.__electron_preload_foo__
 ```
 
 ## Limitation

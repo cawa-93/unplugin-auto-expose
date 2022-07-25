@@ -20,7 +20,7 @@ export const renderer = createUnplugin(
        * @param {string} id
        * @returns {Promise<*>}
        */
-      async load(id) {
+      async load(id: string) {
         if (id === resolvedVirtualModuleId) {
           if (!options?.preloadEntry) {
             this.error(
@@ -33,12 +33,13 @@ export const renderer = createUnplugin(
           const names = new Set(
             exp.map((e) => (e.as === 'src' ? 'default' : e.as)),
           );
+
           return [...names].reduce((code, name) => {
+            const exportName =
+              name === 'default' ? 'default' : `const ${name} =`;
             return (
               code +
-              `export ${
-                name === 'default' ? 'default' : `const ${name} =`
-              } globalThis.__electron_preload__${name};\n`
+              `export ${exportName} globalThis.__electron_preload__${name};\n`
             );
           }, '');
         }

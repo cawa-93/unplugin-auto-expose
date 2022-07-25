@@ -49,10 +49,12 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "magic-string": "^0.26.2",
     "mlly": "0.5.2",
     "unplugin": "0.7.0"
   },
   "devDependencies": {
+    "@types/node": "^18.6.1",
     "bumpp": "7.1.1",
     "tsup": "6.1.0",
     "typescript": "4.7.3"

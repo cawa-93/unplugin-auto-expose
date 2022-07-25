@@ -4,7 +4,8 @@
     "target": "ES2021",
     "sourceMap": true,
     "moduleResolution": "Node",
-    "types": ["node"]
+    "types": ["node"],
+    "strict": true
   },
   "exclude": ["node_modules"]
 }

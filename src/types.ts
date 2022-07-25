@@ -1,6 +1,5 @@
-export interface PreloadOptions {
-}
+export interface PreloadOptions {}
 
 export interface RendererOptions {
-    preloadEntry: string
+  preloadEntry: string;
 }

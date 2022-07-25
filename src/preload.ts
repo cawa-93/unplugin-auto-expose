@@ -1,6 +1,7 @@
 import { createUnplugin } from 'unplugin';
 import type { PreloadOptions } from './types';
 import type { PreRenderedChunk } from 'rollup';
+import MagicString from 'magic-string';
 
 export const preload = createUnplugin(
   (_options: PreloadOptions | undefined) => {
@@ -12,11 +13,17 @@ export const preload = createUnplugin(
         if (!info.isEntry) {
           return;
         }
-        code += "\nconst {contextBridge} = require('electron');\n";
+        const transformed = new MagicString(code);
+        transformed.append("\nconst {contextBridge} = require('electron');\n");
         for (const exp of info.exports) {
-          code += `;\ncontextBridge.exposeInMainWorld('__electron_preload__${exp}', exports.${exp});\n`;
+          transformed.append(
+            `;\ncontextBridge.exposeInMainWorld('__electron_preload__${exp}', exports.${exp});\n`,
+          );
         }
-        return code;
+        return {
+          code: transformed.toString(),
+          map: transformed.generateMap(),
+        };
       },
     };
   },

@@ -1,11 +1,12 @@
-import { readFile } from 'node:fs/promises';
+import { readFile } from 'fs/promises';
 import { findExports } from 'mlly';
+import type { ExportInfo } from './types';
 
 /**
  * @see https://github.com/unjs/unimport/blob/c46860a638377b3329625b70c64e4f62afe4dcc7/src/scan-dirs.ts#L35-L61 Reference
  */
 export async function scanExports(filepath: string) {
-  const imports = [];
+  const imports: ExportInfo[] = [];
   const code = await readFile(filepath, 'utf-8');
   const exports = findExports(code);
   const defaultExport = exports.find((i) => i.type === 'default');

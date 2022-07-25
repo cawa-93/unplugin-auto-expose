@@ -1,5 +1,6 @@
 import { createUnplugin } from 'unplugin';
 import { PreloadOptions } from './types';
+import { PreRenderedChunk } from 'rollup';
 
 export const preload = createUnplugin(
   (_options: PreloadOptions | undefined) => {
@@ -7,7 +8,7 @@ export const preload = createUnplugin(
       // common unplugin hooks
       name: 'unplugin-auto-expose-preload',
 
-      renderChunk(code: string, info: { isEntry: boolean; exports: string[] }) {
+      renderChunk(code: string, info: PreRenderedChunk) {
         if (!info.isEntry) {
           return;
         }

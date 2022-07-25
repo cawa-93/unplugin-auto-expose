@@ -1,6 +1,6 @@
 import { createUnplugin } from 'unplugin';
-import { PreloadOptions } from './types';
-import { PreRenderedChunk } from 'rollup';
+import type { PreloadOptions } from './types';
+import type { PreRenderedChunk } from 'rollup';
 
 export const preload = createUnplugin(
   (_options: PreloadOptions | undefined) => {

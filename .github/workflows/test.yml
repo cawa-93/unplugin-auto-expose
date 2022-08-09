@@ -8,7 +8,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  e2e:
 
     runs-on: ubuntu-latest
 
@@ -18,10 +18,17 @@ jobs:
       with:
         node-version: 16
         cache: 'npm'
-    - run: |
-        cd ./playground
-        npm ci
-        npm run build:main
-        npm run build:preload
-        npm run build:renderer
-        npm run test
+    - run: npm ci
+    - run: npm ci
+      env:
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+      working-directory: playground
+      
+    - run: npm run build:main
+      working-directory: playground
+    - run: npm run build:preload
+      working-directory: playground
+    - run: npm run build:renderer
+      working-directory: playground
+    - run: npm test
+      working-directory: playground

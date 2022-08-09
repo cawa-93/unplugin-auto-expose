@@ -15,8 +15,8 @@ export async function restoreOrCreateWindow() {
                 preload: join(__dirname, '../../preload/dist/index.js'), // path to compiled preload
             },
         });
-        console.log({VITE_DEV_SERVER_URL: process.env.VITE_DEV_SERVER_URL});
-        await window.loadURL(process.env.VITE_DEV_SERVER_URL); // Vite dev server for renderer
+
+        await window.loadURL(process.env.VITE_DEV_SERVER_URL || `file://${join(__dirname, '../../renderer/dist/index.html')}`); // Vite dev server for renderer
     }
 
     if (window.isMinimized()) {

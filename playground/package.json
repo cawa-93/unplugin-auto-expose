@@ -4,12 +4,13 @@
     "build:main": "vite build -c ./main/vite.config.ts",
     "build:preload": "vite build -c ./preload/vite.config.ts",
     "build:renderer": "vite build -c ./renderer/vite.config.ts",
-    "dev": "node ./watch.js"
+    "dev": "node ./watch.js",
+    "test": "vitest"
   },
   "devDependencies": {
-    "vite": "2.9.11"
-  },
-  "dependencies": {
-    "electron": "19.0.4"
+    "electron": "20.0.1",
+    "playwright": "1.24.2",
+    "vite": "2.9.11",
+    "vitest": "0.21.1"
   }
 }

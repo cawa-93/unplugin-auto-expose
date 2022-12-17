@@ -47,7 +47,7 @@
     "unplugin": "1.0.1"
   },
   "devDependencies": {
-    "@types/node": "18.11.16",
+    "@types/node": "18.11.17",
     "bumpp": "8.2.1",
     "tsup": "6.5.0",
     "typescript": "4.9.4"

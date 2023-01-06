@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "electron": "22.0.0",
-    "playwright": "1.29.1",
+    "playwright": "1.29.2",
     "vite": "4.0.4",
     "vitest": "0.26.3"
   }

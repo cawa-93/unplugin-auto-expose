@@ -8,7 +8,7 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "electron": "23.2.1",
+    "electron": "23.2.2",
     "playwright": "1.32.1",
     "vite": "4.2.1",
     "vitest": "0.29.8"

@@ -61,7 +61,7 @@ export default defineConfig({
 ## TypeScript
 To configure the TypeScript, add a path to your renderer 
 
-```json
+```ts
 // tsconfig.json`:
 {
   "compilerOptions": {

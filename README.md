@@ -9,13 +9,13 @@ Plugins for automatic `exposeInMainWorld` everything you exported from preload a
 
 ## Example
 ```ts
-/// preload.ts
+// preload.ts
 export const foo = 'foo string'
 // Equivalent
 electron.contextBridge.exposeInMainWorld('__electron_preload_foo__', 'foo string')
 ```
 ```ts
-/// renderer.ts
+// renderer.ts
 import {foo} from '#preload'
 // Equivalent
 const foo = window.__electron_preload_foo__
@@ -35,7 +35,7 @@ export const props = file // ⚠ Will work but not recommended for security reas
 ## Configuration
 This package contains two plugins: for prelaod and renderer builds
 ```ts
-/// preload/vite.config.ts
+// preload/vite.config.ts
 
 import {preload} from 'unplugin-auto-expose';
 
@@ -46,7 +46,7 @@ export default defineConfig({
 })
 ```
 ```ts
-/// renderer/vite.config.ts
+// renderer/vite.config.ts
 
 import {renderer} from 'unplugin-auto-expose';
 
@@ -62,7 +62,7 @@ export default defineConfig({
 To configure the TypeScript, add a path to your renderer 
 
 ```json
-/// tsconfig.json`:
+// tsconfig.json`:
 {
   "compilerOptions": {
     "paths": {

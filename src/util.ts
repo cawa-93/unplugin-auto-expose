@@ -1,4 +1,4 @@
-import { CommonOptions } from './types';
+import type { CommonOptions } from './types';
 
 export const generateExposedName = (
   originName: string,

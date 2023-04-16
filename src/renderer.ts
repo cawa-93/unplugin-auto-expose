@@ -1,49 +1,50 @@
 import { createUnplugin } from 'unplugin';
 import type { RendererOptions } from './types';
 import { scanExports } from './scanExports';
+import { generateExposedName } from './util';
 
-export const renderer = createUnplugin(
-  (options: RendererOptions | undefined) => {
-    const virtualModuleId = '#preload';
-    const resolvedVirtualModuleId = '\0' + virtualModuleId.replace('#', '@');
+export const renderer = createUnplugin((options: RendererOptions) => {
+  if (!options.preloadEntry && !options.virtualModuleMap) {
+    throw new Error('preloadEntry and virtualModuleMap cannot be both empty!');
+  }
+  const virtualModuleMap = options.virtualModuleMap || {
+    '#preload': options.preloadEntry as string,
+  };
+  const virtualIdToResolvedId: Record<string, string> = {};
+  const resolvedIdToPreloadEntry: Record<string, string> = {};
 
-    return {
-      name: 'unplugin-auto-expose-renderer',
+  Object.entries(virtualModuleMap).forEach(([virtualModuleId, entry]) => {
+    const resolvedId = '\0' + virtualModuleId.replace('#', '@');
+    virtualIdToResolvedId[virtualModuleId] = resolvedId;
+    resolvedIdToPreloadEntry[resolvedId] = entry;
+  });
+  return {
+    name: 'unplugin-auto-expose-renderer',
 
-      resolveId(source) {
-        if (source === virtualModuleId) {
-          return resolvedVirtualModuleId;
-        }
-      },
-      /**
-       *
-       * @param {string} id
-       * @returns {Promise<*>}
-       */
-      async load(id: string) {
-        if (id === resolvedVirtualModuleId) {
-          if (!options?.preloadEntry) {
-            this.error(
-              'Could not load preload module, did you forget to set preloadEntry in vite.config.ts?',
-            );
-            return;
-          }
-          const exp = await scanExports(options.preloadEntry);
+    resolveId(source) {
+      if (virtualIdToResolvedId[source]) {
+        return virtualIdToResolvedId[source];
+      }
+    },
+    /**
+     *
+     * @param {string} id
+     * @returns {Promise<*>}
+     */
+    async load(id: string) {
+      if (id in resolvedIdToPreloadEntry) {
+        const exp = await scanExports(resolvedIdToPreloadEntry[id]);
 
-          const names = new Set(
-            exp.map((e) => (e.as === 'src' ? 'default' : e.as)),
-          );
+        const names = new Set(
+          exp.map((e) => (e.as === 'src' ? 'default' : e.as)),
+        );
 
-          return [...names].reduce((code, name) => {
-            const exportName =
-              name === 'default' ? 'default' : `const ${name} =`;
-            return (
-              code +
-              `export ${exportName} globalThis.__electron_preload__${name};\n`
-            );
-          }, '');
-        }
-      },
-    };
-  },
-);
+        return [...names].reduce((code, name) => {
+          const exportName = name === 'default' ? 'default' : `const ${name} =`;
+          const exposedName = generateExposedName(name, options);
+          return code + `export ${exportName} globalThis.${exposedName};\n`;
+        }, '');
+      }
+    },
+  };
+});

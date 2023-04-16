@@ -2,6 +2,7 @@ import { createUnplugin } from 'unplugin';
 import type { PreloadOptions } from './types';
 import type { PreRenderedChunk } from 'rollup';
 import MagicString from 'magic-string';
+import { generateExposedName } from './util';
 
 export const preload = createUnplugin(
   (_options: PreloadOptions | undefined) => {
@@ -14,11 +15,24 @@ export const preload = createUnplugin(
           return;
         }
         const transformed = new MagicString(code);
-        transformed.append("\nconst {contextBridge} = require('electron');\n");
-        for (const exp of info.exports) {
+        const noContextBridge =
+          _options &&
+          _options.noContextBridgeEntries &&
+          _options.noContextBridgeEntries.includes(info.name);
+        if (!noContextBridge) {
           transformed.append(
-            `;\ncontextBridge.exposeInMainWorld('__electron_preload__${exp}', exports.${exp});\n`,
+            "\nconst {contextBridge} = require('electron');\n",
           );
+        }
+        for (const exp of info.exports) {
+          const exposedName = generateExposedName(exp, _options);
+          if (noContextBridge) {
+            transformed.append(`;\nwindow.${exposedName} = exports.${exp};\n`);
+          } else {
+            transformed.append(
+              `;\ncontextBridge.exposeInMainWorld('${exposedName}', exports.${exp});\n`,
+            );
+          }
         }
         return {
           code: transformed.toString(),

@@ -41,7 +41,10 @@ import {preload} from 'unplugin-auto-expose';
 
 export default defineConfig({
   plugins: [
-    preload.vite()
+    preload.vite({
+      exposeName: (name) => name, // must be same as config in renderer config
+      noContextBridgeEntries: [], // fill filename without .ts here if you must set contextIsolation to false for some window, eg ['preload2']
+    })
   ]
 })
 ```
@@ -53,7 +56,11 @@ import {renderer} from 'unplugin-auto-expose';
 export default defineConfig({
   plugins: [
     renderer.vite({
-      preloadEntry: '/absolute/path/to/preload.ts'
+      exposeName: (name) => name, // must be same as config in preload config
+      virtualModuleMap: {
+        '#preload1': '/absolute/path/to/preload1.ts',
+        '#preload2': '/absolute/path/to/preload2.ts',
+      }
     })
   ]
 })
@@ -66,9 +73,12 @@ To configure the TypeScript, add a path to your renderer.
 {
   "compilerOptions": {
     "paths": {
-      "#preload": [
-        "/path/to/preload"
-      ]
+      "#preload1": [
+        "/path/to/preload1"
+      ],
+      "#preload2": [
+        "/path/to/preload2"
+      ],
     }
   }
 }

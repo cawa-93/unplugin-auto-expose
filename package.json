@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@types/node": "18.16.16",
-    "bumpp": "9.1.0",
+    "bumpp": "9.1.1",
     "tsup": "6.7.0",
     "typescript": "5.1.3"
   }

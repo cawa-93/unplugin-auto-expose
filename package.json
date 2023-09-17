@@ -44,7 +44,7 @@
   "dependencies": {
     "magic-string": "0.30.3",
     "mlly": "1.4.2",
-    "unplugin": "1.4.0"
+    "unplugin": "1.5.0"
   },
   "devDependencies": {
     "@types/node": "18.17.17",

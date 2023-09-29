@@ -42,7 +42,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "magic-string": "0.30.3",
+    "magic-string": "0.30.4",
     "mlly": "1.4.2",
     "unplugin": "1.5.0"
   },

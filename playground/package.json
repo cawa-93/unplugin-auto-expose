@@ -11,6 +11,6 @@
     "electron": "26.2.4",
     "playwright": "1.38.1",
     "vite": "4.4.9",
-    "vitest": "0.34.5"
+    "vitest": "0.34.6"
   }
 }

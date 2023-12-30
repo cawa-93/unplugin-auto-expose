@@ -7,7 +7,7 @@ import {preload} from '../../src/index';
 const config = {
 	root: __dirname,
 	build: {
-		minify: !true,
+		minify: true,
 		ssr: true,
 		lib: {
 			entry: 'index.ts',
@@ -18,7 +18,7 @@ const config = {
 		disabled: true
 	},
 	plugins: [
-		preload(),
+		preload.vite(),
 	],
 };
 

@@ -16,24 +16,23 @@ Plugins for automatic `exposeInMainWorld`. Easily export your exposed api from `
 // preload.ts
 export const foo = 'foo string'
 // Equivalent
-electron.contextBridge.exposeInMainWorld('__electron_preload_foo__', 'foo string')
+electron.contextBridge.exposeInMainWorld('__electron_preload_foo', 'foo string')
 ```
 ```ts
 // renderer.ts
 import {foo} from '#preload'
 // Equivalent
-const foo = window.__electron_preload_foo__
+const foo = window.__electron_preload_foo
 ```
 
 ## Limitation
-Only _named exports_ are supported.
+Currently, only the input file is analyzed. This means that you cannot re-export anything from other modules without specifying the names
 ```ts
 export * from 'file' // ❌ Will not work
-export {prop} from 'file' // ✔
 
-export * as props from 'file' // ❌ Will not work
-import * as file from 'file' 
-export const props = file // ⚠ Will work but not recommended for security reasons
+export * as props from 'file' // ✔
+export {prop} from 'file' // ✔
+export {prop as propAlias} from 'file' // ✔
 ```
 
 ## Configuration
@@ -65,7 +64,7 @@ export default defineConfig({
 ## TypeScript
 To configure the TypeScript, add a path to your renderer.
 
-```ts
+```json5
 // tsconfig.json`:
 {
   "compilerOptions": {

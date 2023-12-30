@@ -22,6 +22,11 @@ export async function scanExports(filepath: string) {
       if (exp.name) {
         imports.push({ name: exp.name, as: exp.name, from: filepath });
       }
+    } else if (exp.type === 'star') {
+      if (!exp.name) {
+        continue;
+      }
+      imports.push({ name: exp.name, as: exp.name, from: filepath });
     }
   }
   return imports;

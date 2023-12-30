@@ -7,17 +7,18 @@ import {preload} from '../../src/index';
 const config = {
 	root: __dirname,
 	build: {
+		minify: !true,
 		ssr: true,
 		lib: {
 			entry: 'index.ts',
-			formats: ['cjs'],
+			formats: ['esm'],
 		},
 	},
 	optimizeDeps: {
 		disabled: true
 	},
 	plugins: [
-		preload.vite(),
+		preload(),
 	],
 };
 

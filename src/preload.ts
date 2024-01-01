@@ -3,7 +3,6 @@ import type {PreloadOptions} from './types';
 import {MagicString} from 'magic-string-ast';
 
 import {babelParse, getLang, walkAST} from 'ast-kit'
-import {func} from "../playground/preload";
 
 export const preload = createUnplugin(
     (_options: PreloadOptions | undefined) => {
@@ -12,13 +11,11 @@ export const preload = createUnplugin(
             name: 'unplugin-auto-expose-preload',
             enforce: 'pre',
 
-            transform(code, id, ...dara) {
+            transform(code, id) {
                 const moduleInfo = this.getModuleInfo(id);
                 if (!moduleInfo.isEntry || moduleInfo.isExternal) {
                     return;
                 }
-
-                let wasElectronUsed = false;
 
                 const s = new MagicString(code)
                 const program = babelParse(code, getLang(id));
@@ -30,17 +27,14 @@ export const preload = createUnplugin(
                                 if (node.declaration) {
                                     if (node.declaration.type === 'VariableDeclaration') {
                                         const names = node.declaration.declarations.map((d: any) => d.id.name)
-                                        wasElectronUsed = true
                                         for (const name of names) {
                                             applyExposingToNode(node, name)
                                         }
                                     } else if (node.declaration.type === 'FunctionDeclaration') {
-                                        wasElectronUsed = true
                                         applyExposingToNode(node, node.declaration.id.name)
 
                                     }
                                 } else if (node.specifiers) {
-                                    wasElectronUsed = true
                                     for (const specifier of node.specifiers) {
                                         if (specifier.type === 'ExportSpecifier') {
 
@@ -69,8 +63,8 @@ export const preload = createUnplugin(
                                 const name = getVarName();
                                 s.appendRight(
                                     node.end,
-                                    `;import * as ${name} from ${node.source.extra.raw};`+
-                                            'Object.keys('+name+').forEach(k => '+getExposeInMainWorldCall(`'+k+'`, name+'[k]')+');'
+                                    `;import * as ${name} from ${node.source.extra.raw};` +
+                                    'Object.keys(' + name + ').forEach(k => ' + getExposeInMainWorldCall(`'+k+'`, name + '[k]') + ');'
                                 )
                             }
                                 break
@@ -79,12 +73,10 @@ export const preload = createUnplugin(
 
                 })
 
-                if (wasElectronUsed) {
-                    s.prepend('import {contextBridge} from \'electron\';\n')
-                }
+                s.prepend('import {contextBridge} from \'electron\';\n')
 
                 function applyExposingToNode(node, name: string, localName: string | null = null) {
-                    s.appendRight(node.loc.end.index, ';'+getExposeInMainWorldCall(name, localName)+';')
+                    s.appendRight(node.loc.end.index, ';' + getExposeInMainWorldCall(name, localName) + ';')
                 }
 
                 return {
@@ -108,6 +100,6 @@ function getVarName(p: string = '') {
 }
 
 
-function getExposeInMainWorldCall(name: string, localName:string|null = null) {
+function getExposeInMainWorldCall(name: string, localName: string | null = null) {
     return `contextBridge.exposeInMainWorld('__electron_preload__${name}', ${localName || name})`
 }

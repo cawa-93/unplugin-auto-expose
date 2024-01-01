@@ -25,14 +25,23 @@ import {foo} from '#preload'
 const foo = window.__electron_preload_foo
 ```
 
-## Limitation
-Currently, only the input file is analyzed. This means that you cannot re-export anything from other modules without specifying the names
-```ts
-export * from 'file' // ❌ Will not work
+## Supports all export declaration
 
-export * as props from 'file' // ✔
-export {prop} from 'file' // ✔
-export {prop as propAlias} from 'file' // ✔
+```ts
+// Export named declaration
+export const prop = 1
+export function method() {}
+
+// Named Re-export
+export {prop} from 'file'
+export {prop as propAlias} from 'file'
+
+// Export all declaration
+export * from 'file'
+export * as props from 'file'
+
+// Default exports
+export default 'foo'
 ```
 
 ## Configuration

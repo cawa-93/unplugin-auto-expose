@@ -3,6 +3,7 @@ import type {PreloadOptions} from './types';
 import {MagicString} from 'magic-string-ast';
 
 import {babelParse, getLang, walkAST} from 'ast-kit'
+import {func} from "../playground/preload";
 
 export const preload = createUnplugin(
     (_options: PreloadOptions | undefined) => {
@@ -55,12 +56,23 @@ export const preload = createUnplugin(
                                 }
 
                                 break;
-                            case 'ExportDefaultDeclaration':
+                            case 'ExportDefaultDeclaration': {
                                 const value = s.slice(node.declaration.start, node.declaration.end)
                                 const name = getVarName();
                                 s.overwriteNode(node, `;const ${name} = ${value};export default ${name};`)
                                 applyExposingToNode(node, 'default', name)
+                            }
 
+                                break;
+
+                            case 'ExportAllDeclaration': {
+                                const name = getVarName();
+                                s.appendRight(
+                                    node.end,
+                                    `;import * as ${name} from ${node.source.extra.raw};`+
+                                            'Object.keys('+name+').forEach(k => '+getExposeInMainWorldCall(`'+k+'`, name+'[k]')+');'
+                                )
+                            }
                                 break
                         }
                     },
@@ -72,7 +84,7 @@ export const preload = createUnplugin(
                 }
 
                 function applyExposingToNode(node, name: string, localName: string | null = null) {
-                    s.appendRight(node.loc.end.index, `;contextBridge.exposeInMainWorld('__electron_preload__${name}', ${localName || name});`)
+                    s.appendRight(node.loc.end.index, ';'+getExposeInMainWorldCall(name, localName)+';')
                 }
 
                 return {
@@ -93,4 +105,9 @@ let index = 0;
 
 function getVarName(p: string = '') {
     return `d${++index}${p}`
+}
+
+
+function getExposeInMainWorldCall(name: string, localName:string|null = null) {
+    return `contextBridge.exposeInMainWorld('__electron_preload__${name}', ${localName || name})`
 }

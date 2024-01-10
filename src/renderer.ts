@@ -29,9 +29,6 @@ export const renderer = createUnplugin(
             return;
           }
           const exp = await scanExports(options.preloadEntry, false);
-
-          console.log(exp)
-
           const names = new Set(exp.map((e) => e.name.replace(/^\.\.\./, '')));
 
           return [...names].reduce((code, name) => {

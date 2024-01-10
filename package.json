@@ -42,12 +42,15 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "ast-kit": "^0.11.3",
+    "@babel/parser": "^7.23.6",
+    "@babel/traverse": "^7.23.7",
+    "@babel/types": "^7.23.6",
     "magic-string-ast": "^0.3.0",
-    "unplugin": "1.6.0",
-    "unimport": "3.7.1"
+    "unimport": "3.7.1",
+    "unplugin": "1.6.0"
   },
   "devDependencies": {
+    "@types/babel__traverse": "^7.20.5",
     "@types/node": "20.11.0",
     "bumpp": "9.2.1",
     "tsup": "8.0.1",

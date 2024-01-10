@@ -32,7 +32,7 @@ export const renderer = createUnplugin(
 
           console.log(exp)
 
-          const names = new Set(exp.map((e) => e.name));
+          const names = new Set(exp.map((e) => e.name.replace(/^\.\.\./, '')));
 
           return [...names].reduce((code, name) => {
             const exportName =

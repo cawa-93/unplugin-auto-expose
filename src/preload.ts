@@ -1,25 +1,49 @@
 import {createUnplugin} from 'unplugin';
-import type {PreloadOptions} from './types';
 import {MagicString} from 'magic-string-ast';
 import {getAST} from "./parser";
 import {
-    type ExportNamedDeclaration, type ExportDefaultDeclaration, isArrayPattern,
-    type ExportAllDeclaration, isExportNamespaceSpecifier, isExportSpecifier,
-    isFunctionDeclaration, isIdentifier, isObjectPattern, isObjectProperty, isRestElement,
+    type ExportAllDeclaration,
+    type ExportDefaultDeclaration,
+    type ExportNamedDeclaration,
+    isArrayPattern,
+    isExportNamespaceSpecifier,
+    isExportSpecifier,
+    isFunctionDeclaration,
+    isIdentifier,
+    isObjectPattern,
+    isObjectProperty,
+    isRestElement,
     isVariableDeclaration,
     type Node
 } from "@babel/types";
 import traverse from "@babel/traverse";
+import * as path from "node:path";
 
 export const preload = createUnplugin(
-    (_options: PreloadOptions | undefined) => {
+    () => {
+        const __entries = new Set();
+
+        function normalizePath(id: string) {
+            return path.normalize(id)
+        }
+
+
         return {
             name: 'unplugin-auto-expose-preload',
             enforce: 'pre',
 
+
+            resolveId(id, importer, options) {
+                if (options.isEntry) {
+                    __entries.add(normalizePath(id))
+                }
+
+                return null
+            },
+
+
             transform(code, id) {
-                const moduleInfo = this.getModuleInfo(id);
-                if (!moduleInfo.isEntry || moduleInfo.isExternal) {
+                if (!__entries.has(normalizePath(id))) {
                     return;
                 }
 

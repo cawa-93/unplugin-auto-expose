@@ -1,6 +1,6 @@
 import { createUnplugin } from 'unplugin';
 import type { RendererOptions } from './types';
-import { scanExports } from './scanExports';
+import { scanExports } from 'unimport';
 
 export const renderer = createUnplugin(
   (options: RendererOptions | undefined) => {
@@ -28,11 +28,8 @@ export const renderer = createUnplugin(
             );
             return;
           }
-          const exp = await scanExports(options.preloadEntry);
-
-          const names = new Set(
-            exp.map((e) => (e.as === 'src' ? 'default' : e.as)),
-          );
+          const exp = await scanExports(options.preloadEntry, false);
+          const names = new Set(exp.map((e) => e.name.replace(/^\.\.\./, '')));
 
           return [...names].reduce((code, name) => {
             const exportName =

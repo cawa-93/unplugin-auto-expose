@@ -4,8 +4,9 @@
     "build:main": "vite build -c ./main/vite.config.ts",
     "build:preload": "vite build -c ./preload/vite.config.ts",
     "build:renderer": "vite build -c ./renderer/vite.config.ts",
+    "build": "npm run build:main && npm run build:preload && npm run build:renderer",
     "dev": "node ./watch.js",
-    "test": "vitest"
+    "test": "npm run build && vitest"
   },
   "devDependencies": {
     "electron": "27.2.2",

@@ -17,5 +17,5 @@ afterAll(async () => {
 test('Preload versions', async () => {
     const page = await electronApp.firstWindow();
     const rendered = await page.locator('body').innerText();
-    expect(JSON.parse(JSON.stringify(exposed))).deep.equal(JSON.parse(rendered))
+    expect(JSON.parse(rendered)).deep.equal(JSON.parse(JSON.stringify(exposed)))
 });

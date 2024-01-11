@@ -1,6 +1,6 @@
 {
   "name": "unplugin-auto-expose",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Plugins for automatic exposeInMainWorld everything you exported from preload and easily importing exposed api in renderer",
   "main": "./dist/index.js",
   "module": "dist/index.mjs",

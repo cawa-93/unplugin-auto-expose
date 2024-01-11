@@ -104,7 +104,7 @@ function handleExportNamedDeclaration(node: ExportNamedDeclaration, code: MagicS
     if (node.specifiers.length) {
         for (const specifier of node.specifiers) {
             if (isExportSpecifier(specifier) && isIdentifier(specifier.exported)) {
-                applyExposingToNode(code, node, specifier.exported.name)
+                applyExposingToNode(code, node, specifier.exported.name, node.source ? null : specifier.local.name)
                 continue
             }
 
@@ -113,8 +113,11 @@ function handleExportNamedDeclaration(node: ExportNamedDeclaration, code: MagicS
             }
         }
 
-        let ex = ';' + code.slice(node.loc.start.index, node.loc.end.index) + ';'
-        code.prependRight(node.loc.end.index, ex.replace('export', 'import'))
+        if (node.source) {
+            let exportDeclaration = ';' + code.slice(node.loc.start.index, node.loc.end.index) + ';'
+            code.prependRight(node.loc.end.index, exportDeclaration.replace('export', 'import'))
+        }
+
         return;
     }
 }

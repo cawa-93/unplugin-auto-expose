@@ -17,3 +17,6 @@ export function customFunction() {
 
 export * from './reexport'
 
+import {module as reexportedModule} from './reexport'
+
+export {reexportedModule, named as named2, property1 as property12}

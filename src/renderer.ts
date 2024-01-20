@@ -1,5 +1,5 @@
 import { createUnplugin } from 'unplugin';
-import type { RendererOptions } from './types';
+import type { RendererOptions } from './types.js';
 import { scanExports } from 'unimport';
 
 export const renderer = createUnplugin(

@@ -1,7 +1,7 @@
 import * as path from "node:path";
 import {createUnplugin} from 'unplugin';
 import {MagicString} from 'magic-string-ast';
-import {getAST} from "./parser";
+import {getAST} from "./parser.js";
 import {
     type ExportAllDeclaration,
     type ExportDefaultDeclaration,
@@ -18,7 +18,7 @@ import {
     type Node
 } from "@babel/types";
 
-import * as traverseModule from "@babel/traverse";
+import traverseModule from "@babel/traverse";
 const traverse = traverseModule.default
 
 export const preload = createUnplugin(

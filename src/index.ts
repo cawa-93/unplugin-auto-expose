@@ -1,3 +1,3 @@
-export { preload } from './preload';
-export { renderer } from './renderer';
-export * from './types';
+export { preload } from './preload.js';
+export { renderer } from './renderer.js';
+export * from './types.js';

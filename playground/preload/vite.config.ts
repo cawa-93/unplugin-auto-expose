@@ -11,7 +11,7 @@ const config = {
 		ssr: true,
 		lib: {
 			entry: 'index.ts',
-			formats: ['cjs'],
+			formats: ['es'],
 		},
 	},
 	optimizeDeps: {

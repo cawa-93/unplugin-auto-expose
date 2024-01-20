@@ -1,3 +1,4 @@
+import * as path from "node:path";
 import {createUnplugin} from 'unplugin';
 import {MagicString} from 'magic-string-ast';
 import {getAST} from "./parser";
@@ -16,8 +17,9 @@ import {
     isVariableDeclaration,
     type Node
 } from "@babel/types";
-import traverse from "@babel/traverse";
-import * as path from "node:path";
+
+import * as traverseModule from "@babel/traverse";
+const traverse = traverseModule.default
 
 export const preload = createUnplugin(
     () => {

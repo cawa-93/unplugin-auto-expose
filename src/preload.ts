@@ -19,7 +19,7 @@ import {
 } from "@babel/types";
 
 import traverseModule from "@babel/traverse";
-const traverse = traverseModule.default
+const traverse = typeof(traverseModule) == 'function' ? traverseModule : traverseModule.default
 
 export const preload = createUnplugin(
     () => {

@@ -43,9 +43,9 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "7.23.6",
-    "@babel/traverse": "7.23.7",
-    "@babel/types": "7.23.6",
+    "@babel/parser": "7.26.1",
+    "@babel/traverse": "7.25.9",
+    "@babel/types": "7.26.0",
     "magic-string-ast": "0.3.0",
     "unimport": "3.7.1",
     "unplugin": "1.6.0"
